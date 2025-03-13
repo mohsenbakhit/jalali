@@ -40,7 +40,7 @@ var months = [...]string{
 // An integer that specifies the year
 type Year int
 
-// An object that specifies a time
+// An object that specifies a Shamsi time
 type Time struct {
 	day     Day
 	weekday Weekday
@@ -48,22 +48,27 @@ type Time struct {
 	year    Year
 }
 
+// Returns the Day of the Farsi time
 func (t *Time) Day() int {
 	return int(t.day)
 }
 
+// Returns the Weekday of the Farsi time
 func (t *Time) Weekday() string {
 	return weekdays[t.weekday-1]
 }
 
+// Returns the name of the Month of the Farsi time
 func (t *Time) MonthString() string {
 	return months[t.month-1]
 }
 
+// Returns the number of the month of the Farsi time
 func (t *Time) Month() int {
 	return int(t.month)
 }
 
+// Returns the year of the month of the Farsi time
 func (t *Time) Year() int {
 	return int(t.year)
 }
