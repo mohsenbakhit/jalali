@@ -63,6 +63,52 @@ func ToJalali(t time.Time) *Jalali {
 
 }
 
+// ToGregorian converts a Jalali date into a time.Time object
+func ToGregorian(jYear int, jMonth int, jDay int, jWeekday int) *time.Time {
+	isJalaliLeap := (jYear%4 == 0 && jYear%100 != 0) || (jYear%400 == 0)
+
+	gYear := jYear + 621
+	isGregorianLeap := (gYear%4 == 0 && gYear%100 != 0) || (gYear%400 == 0)
+
+	jNewYearDay := 21
+	if isGregorianLeap {
+		jNewYearDay = 20
+	}
+
+	jalaliMonths := [...]int{31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29}
+	if isJalaliLeap {
+		jalaliMonths[11] = 30
+	}
+
+	// Calculate days passed in Jalali calendar
+	daysPassed := jDay
+	for i := 0; i < jMonth-1; i++ {
+		daysPassed += jalaliMonths[i]
+	}
+
+	// Add days from start of Gregorian year to Jalali new year
+	gDayOfYear := daysPassed + jNewYearDay - 1
+
+	// If we've passed into next Gregorian year
+	if gDayOfYear > 365+btoi(isGregorianLeap) {
+		gDayOfYear -= 365 + btoi(isGregorianLeap)
+		gYear++
+		isGregorianLeap = (gYear%4 == 0 && gYear%100 != 0) || (gYear%400 == 0)
+	}
+
+	// Find Gregorian month and day
+	gregorianMonths := [...]int{31, 28 + btoi(isGregorianLeap), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+	gMonth := 1
+	for gDayOfYear > gregorianMonths[gMonth-1] {
+		gDayOfYear -= gregorianMonths[gMonth-1]
+		gMonth++
+	}
+	gDay := gDayOfYear
+
+	result := time.Date(gYear, time.Month(gMonth), gDay, 0, 0, 0, 0, time.UTC)
+	return &result
+}
+
 func btoi(b bool) int {
 	if b {
 		return 1

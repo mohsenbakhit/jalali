@@ -71,3 +71,40 @@ func TestToJalali(t *testing.T) {
 	}
 
 }
+
+func TestToGregorian(t *testing.T) {
+	// Test cases with known Jalali to Gregorian conversions
+	testCases := []struct {
+		jalaliYear    int
+		jalaliMonth   int
+		jalaliDay     int
+		jalaliWeekday int
+		expectedYear  int
+		expectedMonth int
+		expectedDay   int
+	}{
+		{1402, 10, 11, 2, 2024, 1, 1},
+		{1403, 1, 1, 4, 2024, 3, 20},
+		{1402, 12, 29, 3, 2024, 3, 19},
+		{1403, 10, 11, 4, 2025, 1, 1},
+	}
+
+	for _, tc := range testCases {
+		gregorian := jalali.ToGregorian(tc.jalaliYear, tc.jalaliMonth, tc.jalaliDay, tc.jalaliWeekday)
+
+		if gregorian.Year() != tc.expectedYear {
+			t.Errorf("Expected year to be %d, got %d for Jalali date %d-%d-%d",
+				tc.expectedYear, gregorian.Year(), tc.jalaliYear, tc.jalaliMonth, tc.jalaliDay)
+		}
+
+		if int(gregorian.Month()) != tc.expectedMonth {
+			t.Errorf("Expected month to be %d, got %d for Jalali date %d-%d-%d",
+				tc.expectedMonth, gregorian.Month(), tc.jalaliYear, tc.jalaliMonth, tc.jalaliDay)
+		}
+
+		if gregorian.Day() != tc.expectedDay {
+			t.Errorf("Expected day to be %d, got %d for Jalali date %d-%d-%d",
+				tc.expectedDay, gregorian.Day(), tc.jalaliYear, tc.jalaliMonth, tc.jalaliDay)
+		}
+	}
+}
