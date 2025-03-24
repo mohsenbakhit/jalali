@@ -1,4 +1,4 @@
-package farsical
+package jalali
 
 // An integer that specifies the day of the month: between 1 and 31
 type Day int
@@ -23,7 +23,7 @@ type Month int
 type MonthString string
 
 var months = [...]string{
-	"Farvarding",
+	"Farvardin",
 	"Ordibehesht",
 	"Khordad",
 	"Tir",
@@ -40,35 +40,35 @@ var months = [...]string{
 // An integer that specifies the year
 type Year int
 
-// An object that specifies a Shamsi time
-type Time struct {
+// An object that specifies a Jalali date
+type Jalali struct {
 	day     Day
 	weekday Weekday
 	month   Month
 	year    Year
 }
 
-// Returns the Day of the Farsi time
-func (t *Time) Day() int {
+// Returns the Day of the Jalali date
+func (t *Jalali) Day() int {
 	return int(t.day)
 }
 
-// Returns the Weekday of the Farsi time
-func (t *Time) Weekday() string {
+// Returns the Weekday of the Jalali date
+func (t *Jalali) Weekday() string {
 	return weekdays[t.weekday-1]
 }
 
-// Returns the name of the Month of the Farsi time
-func (t *Time) MonthString() string {
+// Returns the name of the Month of the Jalali date
+func (t *Jalali) MonthString() string {
 	return months[t.month-1]
 }
 
-// Returns the number of the month of the Farsi time
-func (t *Time) Month() int {
+// Returns the number of the month of the Jalali date
+func (t *Jalali) Month() int {
 	return int(t.month)
 }
 
-// Returns the year of the month of the Farsi time
-func (t *Time) Year() int {
+// Returns the year of the month of the Farsi Jalali
+func (t *Jalali) Year() int {
 	return int(t.year)
 }
