@@ -1,13 +1,12 @@
-package tests
+package jalali
 
 import (
-	"mohsenbakhit/jalali"
 	"testing"
 	"time"
 )
 
 func TestNewJalali(t *testing.T) {
-	jalali := jalali.NewJalali(1403, 10, 12, 4)
+	jalali := NewJalali(1403, 10, 12, 4)
 
 	if jalali.Year() != 1403 {
 		t.Errorf("Expected year to be 2025, got %d", jalali.Year())
@@ -51,7 +50,7 @@ func TestToJalali(t *testing.T) {
 
 	for _, tc := range testCases {
 		gregorianDate := time.Date(tc.gregorianYear, time.Month(tc.gregorianMonth), tc.gregorianDay, 0, 0, 0, 0, time.UTC)
-		jalali := jalali.ToJalali(gregorianDate)
+		jalali := ToJalali(gregorianDate)
 
 		if jalali.Year() != tc.expectedYear {
 			t.Errorf("Expected year to be %d, got %d for Gregorian date %v: Jalali date %v", tc.expectedYear, jalali.Year(), gregorianDate, jalali)
@@ -90,7 +89,7 @@ func TestToGregorian(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		gregorian := jalali.ToGregorian(tc.jalaliYear, tc.jalaliMonth, tc.jalaliDay, tc.jalaliWeekday)
+		gregorian := ToGregorian(tc.jalaliYear, tc.jalaliMonth, tc.jalaliDay, tc.jalaliWeekday)
 
 		if gregorian.Year() != tc.expectedYear {
 			t.Errorf("Expected year to be %d, got %d for Jalali date %d-%d-%d",
