@@ -13,7 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
+      - name: Checkout wiki repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}.wiki
+          token:      ${{ secrets.WIKI_PAT }}
+          path:       wiki
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
@@ -25,5 +30,9 @@ jobs:
       - name: Test
         run: go test -v ./...
 
-      - name: Update coverage badge
-        uses: ncruces/go-coverage-report@main
+      - name: Update coverage report
+        uses: ncruces/go-coverage-report@v0.3.0
+        with:
+          report: true
+          chart: true
+          amend: true
